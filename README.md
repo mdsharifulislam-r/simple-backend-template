@@ -70,7 +70,7 @@ Ensure you have the following installed:
    In the root directory of the project, create a `.env` file and add the following variables. Adjust the values according to your setup.
 
    ```env
-  # Basic
+   # Basic
 NODE_ENV=development
 DATABASE_URL=mongodb://127.0.0.1:27017/demo_app
 IP_ADDRESS=192.168.1.10
