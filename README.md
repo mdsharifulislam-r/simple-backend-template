@@ -1,4 +1,4 @@
-# Simple Backend Template
+# Project Name
 
 This is a template project for backend development using Typescript, Node.js, Express, Mongoose, Bcrypt, JWT, NodeMailer, Multer, ESLint, and Prettier. The aim is to reduce setup time for new backend projects.
 
@@ -71,32 +71,29 @@ Ensure you have the following installed:
 
    ```env
    # Basic
-NODE_ENV=development
-DATABASE_URL=mongodb://127.0.0.1:27017/demo_app
-IP_ADDRESS=192.168.1.10
-PORT=5000
+   NODE_ENV=development
+   DATABASE_URL=mongodb://127.0.0.1:27017/project_name
+   IP_ADDRESS=192.0.0.0
+   PORT=5000
 
-# Bcrypt
-BCRYPT_SALT_ROUNDS=12
+   # Bcrypt
+   BCRYPT_SALT_ROUNDS=12
 
-# JWT
-JWT_SECRET=demo_jwt_secret_key
-JWT_EXPIRE_IN=365d
+   # JWT
+   JWT_SECRET=jwt_secret
+   JWT_EXPIRE_IN=1d
 
-# Email
-EMAIL_FROM=demo.sender@example.com
-EMAIL_USER=demo.sender@example.com
-EMAIL_PASS=abcd efgh ijkl mnop
-EMAIL_PORT=587
-EMAIL_HOST=smtp.gmail.com
+   # Email
+   EMAIL_FROM=email@gmail.com
+   EMAIL_USER=email@gmail.com
+   EMAIL_PASS=mkqcfjeqloothyax
+   EMAIL_PORT=587
+   EMAIL_HOST=smtp.gmail.com
 
-# Super Admin
-SUPER_ADMIN_PASSWORD=demo123456
-SUPER_ADMIN_EMAIL=admin@example.com
+   # Stripe
+   STRIPE_API_SECRET =""
+   WEBHOOK_SECRET= ""
 
-# Stripe
-STRIPE_API_SECRET=sk_test_demo_secret_key_1234567890
-WEBHOOK_SECRET=whsec_demo_webhook_secret_9876543210
    ```
 
 4. **Run the project:**
