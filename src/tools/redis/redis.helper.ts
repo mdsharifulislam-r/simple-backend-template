@@ -1,7 +1,21 @@
 import { redisClient } from "../../config/redis";
 
+const buildField = (query: Record<string, any>): string => {
+  if(!query) return '';
+    const sortedQuery = Object.keys(query)
+        .sort()
+        .reduce((acc: Record<string, any>, key) => {
+            acc[key] = query[key];
+            return acc;
+        }, {});
+ 
+    return new URLSearchParams(
+        sortedQuery as Record<string, string>
+    ).toString();
+};
+
 const redisSet = async (key: string, value: any, query?: Record<string, any>, ttl: number=60) => {
-  const queryString = new URLSearchParams(query as Record<string, string>).toString();
+  const queryString = buildField(query!);
   
   
   await redisClient.set(`${key}:${queryString||'1'}`, JSON.stringify(value), "EX",ttl);
@@ -9,7 +23,7 @@ const redisSet = async (key: string, value: any, query?: Record<string, any>, tt
 };
 
 const redisGet = async (key: string, query?: Record<string, any>) => {
-  const queryString = new URLSearchParams(query as Record<string, string>).toString();
+  const queryString = buildField(query!);
   const data = JSON.parse(await redisClient.get(`${key}:${queryString||'1'}`) || "[]");
 
   if (Array.isArray(data) && !data.length) {
@@ -20,12 +34,12 @@ const redisGet = async (key: string, query?: Record<string, any>) => {
 };
 
 const redisHset = async (key: string, query: Record<string, any>, value: any, ttl: number=60) => {
-  const field = new URLSearchParams(query as Record<string, string>).toString();
+  const field = buildField(query!);;
   await redisClient.hset(key, field, JSON.stringify(value), "EX",ttl);
 };
 
 const redisHget = async (key: string, query: Record<string, any>) => {
-  const field = new URLSearchParams(query as Record<string, string>).toString();
+  const field = buildField(query!);;
   const data = JSON.parse(await redisClient.hget(key, field) || "[]");
   if (Array.isArray(data) && !data.length) {
     return null;
