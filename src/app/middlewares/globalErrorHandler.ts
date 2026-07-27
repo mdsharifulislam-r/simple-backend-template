@@ -6,10 +6,13 @@ import handleValidationError from '../../errors/handleValidationError';
 import handleZodError from '../../errors/handleZodError';
 import { errorLogger } from '../../shared/logger';
 import { IErrorMessage } from '../../types/errors.types';
+import { unlinkUnuseFile } from '../../helpers/unlinkUnuseFile';
 
 const globalErrorHandler: ErrorRequestHandler = (error, req, res, next) => {
   config.node_env === 'development' ? console.log(error) : errorLogger.error(error);
-
+  if (req.files) {
+    unlinkUnuseFile(req.files as any);
+  }
   let statusCode = 500;
   let message = 'Something went wrong';
   let errorMessages: IErrorMessage[] = [];
@@ -29,33 +32,33 @@ const globalErrorHandler: ErrorRequestHandler = (error, req, res, next) => {
     message = 'Session Expired';
     errorMessages = error?.message
       ? [
-          {
-            path: '',
-            message:
-              'Your session has expired. Please log in again to continue.',
-          },
-        ]
+        {
+          path: '',
+          message:
+            'Your session has expired. Please log in again to continue.',
+        },
+      ]
       : [];
   } else if (error instanceof ApiError) {
     statusCode = error.statusCode;
     message = error.message;
     errorMessages = error.message
       ? [
-          {
-            path: '',
-            message: error.message,
-          },
-        ]
+        {
+          path: '',
+          message: error.message,
+        },
+      ]
       : [];
   } else if (error instanceof Error) {
     message = error.message;
     errorMessages = error.message
       ? [
-          {
-            path: '',
-            message: error?.message,
-          },
-        ]
+        {
+          path: '',
+          message: error?.message,
+        },
+      ]
       : [];
   }
 
